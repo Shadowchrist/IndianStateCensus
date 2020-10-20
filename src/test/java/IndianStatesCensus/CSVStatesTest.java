@@ -1,14 +1,15 @@
 package IndianStatesCensus;
 
 import static org.junit.Assert.*;
+
 import org.junit.Test;
 
-public class StateCensusAnalyzerTest {
+public class CSVStatesTest {
 
 	@Test
 	public void ifNumberOfEntriesAreCorrect_HappyCase() throws CustomException {
 		try {
-			int result=StatesCensusAnalyzer.getCensusDataCount("./src/main/resources/IndianStateCensusData.csv");
+			int result=CSVStates.getStateCodeCount("./src/main/resources/IndianStateCensusData.csv");
 			assertEquals(36, result);
 		} catch (CustomException e) {
 			System.out.println(e.getMessage());
@@ -46,4 +47,5 @@ public class StateCensusAnalyzerTest {
 			System.out.println(e.getMessage());
 		}
 	}
-}	
+
+}
