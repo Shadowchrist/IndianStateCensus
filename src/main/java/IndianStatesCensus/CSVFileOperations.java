@@ -8,7 +8,6 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.StreamSupport;
 import com.opencsv.*;
-import com.opencsv.bean.*;
 
 public class CSVFileOperations {
 	public static boolean checkHeaderArrayFilePathAndDelimiter(String[] mapping, String path, char delimiter) throws CustomException {
@@ -27,17 +26,6 @@ public class CSVFileOperations {
 			throw new CustomException(CustomException.ExceptionType.FILE_NOT_FOUND, "File Not Found!");
 		}
 		return false;
-	}
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static <T> Iterator<T> getCSVIterator(Reader reader, Class csvClass) throws CustomException {
-		try {
-			CsvToBeanBuilder<T> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
-			CsvToBean<T> csvToBean = csvToBeanBuilder.withType(csvClass).withIgnoreLeadingWhiteSpace(true).build();
-			return csvToBean.iterator();
-		} catch (IllegalStateException e) {
-			throw new CustomException(CustomException.ExceptionType.PARSING_ERROR, "Unable to parse!");
-		}
 	}
 	
 	public static <E> int getCount(Iterator<E> iterator) {

@@ -32,7 +32,8 @@ public class CSVStates implements Serializable {
 	{
 		try {
 			Reader reader=Files.newBufferedReader(Paths.get(filePath));
-			Iterator<CSVStates> csvIterator=CSVFileOperations.getCSVIterator(reader, CSVStates.class);
+			ICSVBuilder<CSVStates> csvBuilder = CSVBuilder.createCSVBuilder();
+			Iterator<CSVStates> csvIterator=csvBuilder.getCSVIterator(reader, CSVStates.class);
 			return CSVFileOperations.getCount(csvIterator);
 		} catch (IOException e) {
 			throw new CustomException(CustomException.ExceptionType.FILE_NOT_FOUND,"File not found!");

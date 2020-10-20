@@ -32,7 +32,8 @@ public class StatesCensusAnalyzer implements Serializable{
 	{
 		try {
 			Reader reader=Files.newBufferedReader(Paths.get(filePath));
-			Iterator<StatesCensusAnalyzer> csvIterator=CSVFileOperations.getCSVIterator(reader, StatesCensusAnalyzer.class);
+			ICSVBuilder<StatesCensusAnalyzer> csvBuilder = CSVBuilder.createCSVBuilder();
+			Iterator<StatesCensusAnalyzer> csvIterator=csvBuilder.getCSVIterator(reader, StatesCensusAnalyzer.class);
 			return CSVFileOperations.getCount(csvIterator);
 		} catch (IOException e) {
 			throw new CustomException(CustomException.ExceptionType.FILE_NOT_FOUND,"File not Found!");
