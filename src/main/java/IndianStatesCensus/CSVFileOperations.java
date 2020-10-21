@@ -37,11 +37,23 @@ public class CSVFileOperations<E> {
 		return list.size();
 	}
 	
-	public String sortStateData() throws CustomException
+	public String sortStateDataByName() throws CustomException, IOException
 	{
 		List<StatesCensusAnalyzer> statesData = StatesCensusAnalyzer.getCensusDataCount("./src/main/resources/IndianStateCensusData.csv");
 		List<StatesCensusAnalyzer> sortedData = statesData.stream().sorted((p1,p2)->p1.getStateName().compareToIgnoreCase(p2.getStateName())).collect(Collectors.toList());
+		FileWriter writer= new FileWriter("./src/main/resources/StateCensusDataSortedByName.json");
 		String sortedStateCensus=new Gson().toJson(sortedData);
+		new Gson().toJson(sortedData,writer);
+		return sortedStateCensus;
+	}
+	
+	public String sortStateDataByCode() throws CustomException, IOException
+	{
+		List<StatesCensusAnalyzer> statesData = StatesCensusAnalyzer.getCensusDataCount("./src/main/resources/IndianStateCensusData.csv");
+		List<StatesCensusAnalyzer> sortedData = statesData.stream().sorted((p1,p2)->p1.getStateCode().compareToIgnoreCase(p2.getStateCode())).collect(Collectors.toList());
+		FileWriter writer= new FileWriter("./src/main/resources/StateCensusDataSortedByCode.json");
+		String sortedStateCensus=new Gson().toJson(sortedData);
+		new Gson().toJson(sortedData,writer);
 		return sortedStateCensus;
 	}
 }

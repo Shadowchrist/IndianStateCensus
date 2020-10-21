@@ -1,6 +1,9 @@
 package IndianStatesCensus;
 
 import static org.junit.Assert.*;
+
+import java.io.IOException;
+
 import org.junit.Test;
 
 import com.google.gson.Gson;
@@ -48,13 +51,26 @@ public class StateCensusAnalyzerTest {
 	}
 		
 	@Test
-	public void givenStateCensusDataOnSortingByStateNameShouldMatchSortedResult() {
+	public void givenStateCensusDataOnSortingByStateNameShouldMatchSortedResult() throws IOException {
 		CSVFileOperations<StatesCensusAnalyzer> censusAnalyser = new CSVFileOperations<StatesCensusAnalyzer>();
 		try {
-			String sortedData = censusAnalyser.sortStateData();
+			String sortedData = censusAnalyser.sortStateDataByName();
 			StatesCensusAnalyzer[] stateData = new Gson().fromJson(sortedData,StatesCensusAnalyzer[].class);
 			assertEquals("Andaman and Nicobar Islands", stateData[0].stateName);
 			assertEquals("Chandigarh", stateData[5].stateName);
+		} catch (CustomException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void givenStateCensusDataOnSortingByStateCodeShouldMatchSortedResult() throws IOException {
+		CSVFileOperations<StatesCensusAnalyzer> censusAnalyser = new CSVFileOperations<StatesCensusAnalyzer>();
+		try {
+			String sortedData = censusAnalyser.sortStateDataByCode();
+			StatesCensusAnalyzer[] stateData = new Gson().fromJson(sortedData,StatesCensusAnalyzer[].class);
+			assertEquals("Andaman and Nicobar Islands", stateData[0].stateName);
+			assertEquals("Chhattisgarh", stateData[5].stateName);
 		} catch (CustomException e) {
 			e.printStackTrace();
 		}

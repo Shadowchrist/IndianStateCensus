@@ -18,6 +18,16 @@ public class StatesCensusAnalyzer implements Serializable{
 	@CsvBindByName(column="Population",required=true)
 	public long censusInfo;
 	
+	@CsvBindByName(column="State Code",required=true)
+	public String stateCode;
+	
+	public String getStateCode() {
+		return stateCode;
+	}
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}
+	
 	public String getStateName() {
 		return stateName;
 	}
