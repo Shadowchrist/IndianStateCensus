@@ -6,10 +6,15 @@ package IndianStatesCensus;
 import java.io.*;
 import java.nio.file.*;
 import java.util.*;
-import java.util.stream.StreamSupport;
-import com.opencsv.*;
+import java.util.stream.Collectors;
 
-public class CSVFileOperations {
+import com.opencsv.*;
+import com.google.gson.*;
+import csvutility.*;
+
+public class CSVFileOperations<E> {
+	
+	
 	public static boolean checkHeaderArrayFilePathAndDelimiter(String[] mapping, String path, char delimiter) throws CustomException {
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(path));
@@ -28,8 +33,15 @@ public class CSVFileOperations {
 		return false;
 	}
 	
-	public static <E> int getCount(Iterator<E> iterator) {
-		Iterable<E> csvIterable = () -> iterator;
-		return (int) (StreamSupport.stream(csvIterable.spliterator(), false)).count();
+	public int getCount(List<E> list) {
+		return list.size();
+	}
+	
+	public String sortStateData() throws CustomException
+	{
+		List<StatesCensusAnalyzer> statesData = StatesCensusAnalyzer.getCensusDataCount("./src/main/resources/IndianStateCensusData.csv");
+		List<StatesCensusAnalyzer> sortedData = statesData.stream().sorted((p1,p2)->p1.getStateName().compareToIgnoreCase(p2.getStateName())).collect(Collectors.toList());
+		String sortedStateCensus=new Gson().toJson(sortedData);
+		return sortedStateCensus;
 	}
 }

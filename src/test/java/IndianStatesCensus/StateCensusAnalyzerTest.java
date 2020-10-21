@@ -3,12 +3,16 @@ package IndianStatesCensus;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
+import com.google.gson.Gson;
+
+import csvutility.CustomException;
+
 public class StateCensusAnalyzerTest {
 
 	@Test
 	public void ifNumberOfEntriesAreCorrect_HappyCase() throws CustomException {
 		try {
-			int result=StatesCensusAnalyzer.getCensusDataCount("./src/main/resources/IndianStateCensusData.csv");
+			int result=StatesCensusAnalyzer.getCensusDataCount("./src/main/resources/IndianStateCensusData.csv").size();
 			assertEquals(36, result);
 		} catch (CustomException e) {
 			System.out.println(e.getMessage());
@@ -16,14 +20,10 @@ public class StateCensusAnalyzerTest {
 	}
 	
 	@Test
-	public void ifFilePathIsWrong_SadCase() {
-			try {
-				String[] mapping = new String[] { "Sr No.", "State Name", "TIN", "Population", "State Code" };
-				assertTrue(CSVFileOperations.checkHeaderArrayFilePathAndDelimiter(mapping,"./src/main/IndianStateCensusData.csv",','));
-			} catch (CustomException e) {
-				System.out.println(e.getMessage());
-			}
-		}
+	public void ifFilePathIsWrong_SadCase() throws CustomException {
+		String[] mapping = new String[] { "Sr No.", "State Name", "TIN", "Population", "State Code" };
+		assertTrue(CSVFileOperations.checkHeaderArrayFilePathAndDelimiter(mapping,"./src/main/IndianStateCensusData.csv",','));
+	}
 	
 	@Test
 	public void ifHeaderIsWrong_SadCase() {
@@ -44,6 +44,19 @@ public class StateCensusAnalyzerTest {
 		} catch (CustomException e) {
 			
 			System.out.println(e.getMessage());
+		}
+	}
+		
+	@Test
+	public void givenStateCensusDataOnSortingByStateNameShouldMatchSortedResult() {
+		CSVFileOperations<StatesCensusAnalyzer> censusAnalyser = new CSVFileOperations<StatesCensusAnalyzer>();
+		try {
+			String sortedData = censusAnalyser.sortStateData();
+			StatesCensusAnalyzer[] stateData = new Gson().fromJson(sortedData,StatesCensusAnalyzer[].class);
+			assertEquals("Andaman and Nicobar Islands", stateData[0].stateName);
+			assertEquals("Chandigarh", stateData[5].stateName);
+		} catch (CustomException e) {
+			e.printStackTrace();
 		}
 	}
 }	

@@ -1,11 +1,11 @@
-package IndianStatesCensus;
+package csvutility;
 
 @SuppressWarnings("serial")
 public class CustomException extends Exception
 {
 	ExceptionType type=null;
 		
-	enum ExceptionType
+	public enum ExceptionType
 	{
 		FILE_NOT_FOUND, INCORRECT_TYPE, INCORRECT_DELIMITER, INCORRECT_HEADER, PARSING_ERROR;
 	}

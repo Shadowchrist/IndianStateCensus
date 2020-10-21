@@ -1,4 +1,4 @@
-package IndianStatesCensus;
+package csvutility;
 
 public class CSVBuilder {
 	public static <E> ICSVBuilder<E> createCSVBuilder() {
